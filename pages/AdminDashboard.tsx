@@ -46,13 +46,6 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onManageCases }) => {
     }
   };
 
-  const handleOpenKeyDialog = async () => {
-    try {
-      // @ts-ignore
-      await window.aistudio.openSelectKey();
-    } catch (e) {}
-  };
-
   const handleDeleteSelected = async () => {
     if (selectedStudents.length === 0) return;
     if (window.confirm(`Excluir ${selectedStudents.length} aluno(s)?`)) {
@@ -127,9 +120,6 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onManageCases }) => {
           <AlertCircle className="text-amber-600" size={24} />
           <p className="text-sm text-amber-800">Painel de Controle Multi-usuário (Supabase)</p>
         </div>
-        <button onClick={handleOpenKeyDialog} className="flex items-center gap-2 bg-amber-600 text-white px-4 py-2 rounded-lg font-bold text-sm">
-          <Key size={16} /> Configurar Chave API
-        </button>
       </div>
 
       <div className="flex border-b border-slate-200">

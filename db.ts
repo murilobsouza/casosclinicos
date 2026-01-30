@@ -5,9 +5,17 @@ import { supabase } from './supabase';
 export const DB = {
   // --- USUÁRIOS ---
   getUsers: async (): Promise<User[]> => {
-    const { data, error } = await supabase.from('users').select('*');
-    if (error) throw error;
-    return data.map(u => ({ ...u, classGroup: u.class_group }));
+    try {
+      const { data, error } = await supabase.from('users').select('*');
+      if (error) {
+        console.warn("Supabase: Erro ou chaves não configuradas.", error.message);
+        return [];
+      }
+      return (data || []).map(u => ({ ...u, classGroup: u.class_group }));
+    } catch (e) {
+      console.error("DB: Erro fatal ao buscar usuários", e);
+      return [];
+    }
   },
   
   saveUser: async (user: Partial<User>) => {
@@ -29,12 +37,20 @@ export const DB = {
 
   // --- CASOS CLÍNICOS ---
   getCases: async (): Promise<ClinicalCase[]> => {
-    const { data, error } = await supabase.from('clinical_cases').select('*').order('created_at', { ascending: false });
-    if (error) throw error;
-    return data.map(c => ({
-      ...c,
-      createdAt: new Date(c.created_at).getTime()
-    }));
+    try {
+      const { data, error } = await supabase.from('clinical_cases').select('*').order('created_at', { ascending: false });
+      if (error) {
+        console.warn("Supabase: Erro ou chaves não configuradas ao buscar casos.");
+        return [];
+      }
+      return (data || []).map(c => ({
+        ...c,
+        createdAt: new Date(c.created_at).getTime()
+      }));
+    } catch (e) {
+      console.error("DB: Erro ao buscar casos", e);
+      return [];
+    }
   },
 
   saveCase: async (c: Partial<ClinicalCase>) => {
@@ -46,7 +62,7 @@ export const DB = {
       stages: c.stages
     };
 
-    if (c.id) {
+    if (c.id && c.id.length > 20) {
       const { error } = await supabase.from('clinical_cases').update(payload).eq('id', c.id);
       if (error) throw error;
     } else {
@@ -62,17 +78,21 @@ export const DB = {
 
   // --- SESSÕES ---
   getSessions: async (): Promise<Session[]> => {
-    const { data, error } = await supabase.from('sessions').select('*');
-    if (error) throw error;
-    return data.map(s => ({
-      ...s,
-      studentId: s.student_id,
-      caseId: s.case_id,
-      currentStageIndex: s.current_stage_index,
-      totalScore: s.total_score,
-      createdAt: new Date(s.created_at).getTime(),
-      finishedAt: s.finished_at ? new Date(s.finished_at).getTime() : undefined
-    }));
+    try {
+      const { data, error } = await supabase.from('sessions').select('*');
+      if (error) return [];
+      return (data || []).map(s => ({
+        ...s,
+        studentId: s.student_id,
+        caseId: s.case_id,
+        currentStageIndex: s.current_stage_index,
+        totalScore: s.total_score,
+        createdAt: new Date(s.created_at).getTime(),
+        finishedAt: s.finished_at ? new Date(s.finished_at).getTime() : undefined
+      }));
+    } catch (e) {
+      return [];
+    }
   },
   
   saveSession: async (session: Session) => {
@@ -86,32 +106,36 @@ export const DB = {
       finished_at: session.finishedAt ? new Date(session.finishedAt).toISOString() : null
     };
 
-    const { error } = await supabase.from('sessions').upsert({
-      id: session.id.includes('.') ? undefined : session.id, // Handle UUID vs temporary IDs
-      ...payload
-    }, { onConflict: 'id' });
-    
-    if (error) {
-      // If ID is not a UUID (temp ID from frontend), let Supabase generate one
-      const { error: insertError } = await supabase.from('sessions').insert([payload]);
-      if (insertError) throw insertError;
+    const isRealUUID = session.id.includes('-') && session.id.length > 30;
+
+    if (isRealUUID) {
+      const { error } = await supabase.from('sessions').update(payload).eq('id', session.id);
+      if (error) throw error;
+    } else {
+      const { error } = await supabase.from('sessions').insert([payload]);
+      if (error) throw error;
     }
   },
 
   getUserSessions: async (userId: string): Promise<Session[]> => {
-    const { data, error } = await supabase.from('sessions')
-      .select('*')
-      .eq('student_id', userId)
-      .order('created_at', { ascending: false });
-    if (error) throw error;
-    return data.map(s => ({
-      ...s,
-      studentId: s.student_id,
-      caseId: s.case_id,
-      currentStageIndex: s.current_stage_index,
-      totalScore: s.total_score,
-      createdAt: new Date(s.created_at).getTime(),
-      finishedAt: s.finished_at ? new Date(s.finished_at).getTime() : undefined
-    }));
+    if (!userId) return [];
+    try {
+      const { data, error } = await supabase.from('sessions')
+        .select('*')
+        .eq('student_id', userId)
+        .order('created_at', { ascending: false });
+      if (error) return [];
+      return (data || []).map(s => ({
+        ...s,
+        studentId: s.student_id,
+        caseId: s.case_id,
+        currentStageIndex: s.current_stage_index,
+        totalScore: s.total_score,
+        createdAt: new Date(s.created_at).getTime(),
+        finishedAt: s.finished_at ? new Date(s.finished_at).getTime() : undefined
+      }));
+    } catch (e) {
+      return [];
+    }
   }
 };

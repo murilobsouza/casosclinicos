@@ -2,9 +2,6 @@
 import { GoogleGenAI, Type } from "@google/genai";
 import { CaseStage, ClinicalCase } from "./types";
 
-// Always use the process.env.API_KEY directly for initialization as per guidelines
-const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
-
 export interface AIFeedbackResponse {
   feedback: string;
   score: number;
@@ -16,6 +13,10 @@ export async function getClinicalFeedback(
   stageIndex: number,
   studentResponse: string
 ): Promise<AIFeedbackResponse> {
+  // Use a new instance right before making an API call to ensure it always uses the most up-to-date API key.
+  // The API key must be obtained exclusively from the environment variable process.env.API_KEY.
+  const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+
   const currentStage = currentCase.stages[stageIndex];
   
   const systemInstruction = `
@@ -57,7 +58,6 @@ export async function getClinicalFeedback(
       }
     });
 
-    // Access the text property directly and trim the output string as per guidelines
     const jsonStr = response.text?.trim() || "{}";
     return JSON.parse(jsonStr);
   } catch (error) {
