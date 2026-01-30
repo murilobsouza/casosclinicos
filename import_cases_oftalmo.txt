@@ -1,0 +1,307 @@
+TITULO: Glaucoma Agudo de Ângulo Fechado
+TEMA: Emergência / Glaucoma
+DIFICULDADE: Difícil
+E1C: M.S.A., 65 anos, feminina, aposentada. Queixa de dor ocular intensa em olho direito (OD) há 4 horas, associada a náuseas, vômitos e visão de halos coloridos. Sintomas iniciaram após assistir filme em sala escura.
+E1Q: Quais são as suas principais hipóteses diagnósticas e por que o ambiente escuro pode ter sido um gatilho?
+E2C: Paciente tem hipermetropia (+4,00 DE). Mãe com história de glaucoma. Ao exame físico inicial: OD com hiperemia conjuntival intensa e midríase média arreativa.
+E2Q: Diante da midríase média e hipermetropia, quais manobras ou passos do exame físico são cruciais agora?
+E3C: AV OD: conta dedos a 2m. Biomicroscopia OD: Edema de córnea, câmara anterior muito rasa. Tonometria: OD 52 mmHg / OE 16 mmHg. Gonioscopia pós-edema confirmará ângulo fechado.
+E3Q: Qual o diagnóstico provável e como a anatomia do olho hipermétrope predispõe a este evento?
+E4C: É necessário reduzir a pressão intraocular (PIO) rapidamente para evitar danos permanentes ao nervo óptico.
+E4Q: Quais medicações sistêmicas e colírios hipotensores devem ser administrados imediatamente na emergência?
+E5C: PIO controlada com Acetazolamida e Manitol. A paciente precisará de tratamento definitivo para evitar novas crises.
+E5Q: Qual o procedimento a laser indicado e por que ele deve ser realizado profilaticamente também no olho contralateral?
+===
+TITULO: Conjuntivite Bacteriana
+TEMA: Infecciosa
+DIFICULDADE: Fácil
+E1C: J.P.S., 28 anos, bancário. Olho vermelho com secreção amarelada abundante há 2 dias. Acorda com pálpebras "coladas". Refere sensação de corpo estranho.
+E1Q: Quais as principais causas de olho vermelho associadas à secreção purulenta?
+E2C: Nega dor intensa, fotofobia ou redução da visão. Nega uso de lentes de contato. Refere que os sintomas iniciaram em um olho e passaram para o outro.
+E2Q: Como a história natural e o tipo de secreção ajudam a diferenciar este quadro de uma conjuntivite viral ou alérgica?
+E3C: AV 20/20 em AO. Biomicroscopia: Hiperemia conjuntival difusa, quemose leve, secreção mucopurulenta abundante. Córneas transparentes.
+E3Q: Qual o diagnóstico clínico e qual a recomendação inicial quanto à higiene ocular?
+E4C: O tratamento requer o uso de antibióticos tópicos para acelerar a cura e reduzir a transmissão.
+E4Q: Cite três opções de antibióticos tópicos de amplo espectro indicados para este caso.
+E5C: O paciente pergunta se pode voltar ao trabalho amanhã e se deve compartilhar toalhas.
+E5Q: Quais orientações sobre contágio, higiene das mãos e afastamento de atividades coletivas você deve fornecer?
+===
+TITULO: Conjuntivite Viral
+TEMA: Infecciosa
+DIFICULDADE: Fácil
+E1C: A.M.L., 35 anos, professora. Queixa de olho vermelho com lacrimejamento intenso em OD há 3 dias, progredindo para OE. Relata coriza e febre baixa há 5 dias.
+E1Q: Diante do contexto epidemiológico (professora) e sintomas gripais, qual sua principal suspeita?
+E2C: Paciente nega dor intensa ou redução visual importante. Refere que dois de seus alunos apresentaram quadros semelhantes na semana passada.
+E2Q: Quais achados na conjuntiva e na região pré-auricular você buscaria para confirmar a etiologia viral?
+E3C: AV 20/25 em AO. Biomicroscopia: Hiperemia difusa, folículos em fórnice inferior, secreção aquosa. Linfonodo pré-auricular aumentado e doloroso.
+E3Q: Qual o diagnóstico e qual o vírus mais comumente envolvido nestas epidemias?
+E4C: O quadro é autolimitado, mas altamente contagioso. O foco do tratamento é o alívio dos sintomas.
+E4Q: Quais as medidas de suporte (compressas, lubrificantes) e orientações de higiene são fundamentais?
+E5C: O quadro pode piorar nos primeiros 7 dias antes de melhorar. Podem surgir infiltrados corneanos tardios que reduzem a visão.
+E5Q: Qual o período de isolamento recomendado e quais sinais indicariam a necessidade de retorno imediato?
+===
+TITULO: Conjuntivite Alérgica
+TEMA: Inflamatória
+DIFICULDADE: Fácil
+E1C: L.R.F., 22 anos, estudante. Coceira intensa nos olhos há 1 semana, bilateral, associada a lacrimejamento e sensação de areia.
+E1Q: O prurido intenso é o sintoma guia. Quais antecedentes pessoais você deve investigar?
+E2C: Paciente tem rinite alérgica e asma. Sintomas pioram na primavera e em ambientes com ar condicionado. Nega secreção purulenta.
+E2Q: Como o histórico de atopia reforça a suspeita e quais seriam os prováveis gatilhos ambientais?
+E3C: AV 20/20. Biomicroscopia: Hiperemia leve, quemose, papilas em "paralelepípedo" na conjuntiva tarsal superior, secreção mucosa filamentosa.
+E3Q: Qual o diagnóstico e qual a importância de everter a pálpebra superior neste exame?
+E4C: O tratamento visa o controle da resposta inflamatória e estabilização dos mastócitos.
+E4Q: Quais classes de colírios e medidas não farmacológicas (ex: temperatura das compressas) são indicadas?
+E5C: Paciente pergunta se pode coçar o olho quando a coceira for insuportável.
+E5Q: Por que coçar os olhos é contraindicado e qual patologia corneana degenerativa está associada a este hábito?
+===
+TITULO: Úlcera de Córnea (Ceratite Bacteriana)
+TEMA: Emergência / Infecciosa
+DIFICULDADE: Difícil
+E1C: R.T.M., 42 anos, marceneiro. Dor ocular intensa em OE há 2 dias, fotofobia e redução visual. Usuário de lentes de contato gelatinosas; dormiu com elas há 3 dias.
+E1Q: Diante da dor intensa e uso inadequado de lentes de contato, qual sua principal suspeita?
+E2C: Nega trauma direto, mas trabalha com madeira. Blefaroespasmo presente dificultando o exame. Visão em OE é conta dedos a 1m.
+E2Q: Quais são os principais agentes etiológicos associados ao uso de lentes de contato que você deve suspeitar?
+E3C: Biomicroscopia: Infiltrado corneano denso esbranquiçado de 3x2mm, fluoresceína positiva na área, reação de câmara anterior com hipópio de 1mm.
+E3Q: Qual o diagnóstico e o que a presença de hipópio revela sobre a gravidade do quadro inflamatório/infeccioso?
+E4C: Trata-se de uma emergência oftalmológica. A conduta deve ser agressiva para evitar perfuração ocular.
+E4Q: Qual a conduta inicial quanto à coleta de material e qual a terapia antibiótica empírica reforçada?
+E5C: O paciente pergunta se pode ocluir o olho para aliviar a dor.
+E5Q: Por que a oclusão ocular é terminantemente contraindicada e quais as possíveis sequelas visuais deste quadro?
+===
+TITULO: Descolamento de Retina (DR)
+TEMA: Emergência / Retina
+DIFICULDADE: Difícil
+E1C: E.C.S., 58 anos, advogado. Queixa de "cortina escura" no campo visual superior de OD há 1 dia.
+E1Q: Quais sintomas precursores (fotopsias/miodesopsias) devem ser investigados nesta fase?
+E2C: Há 2 semanas iniciou flashes de luz e aumento de moscas volantes. Paciente tem alta miopia (-8.00 DE em AO). Pai teve DR aos 60 anos.
+E2Q: Por que a alta miopia é um fator de risco anatômico crucial para o descolamento regmatogênico?
+E3C: AV OD: movimentos de mão. PIO OD: 8 mmHg (hipotonia relativa). Fundoscopia: Retina ondulante e descolada em quadrantes superior e temporal.
+E3Q: Qual o diagnóstico e qual achado no exame de fundo de olho define a conduta cirúrgica urgente?
+E4C: Confirmado DR regmatogênico com rotura em ferradura. A mácula ainda está aplicada (macula-on).
+E4Q: Qual a urgência deste caso em relação ao status macular e quais as opções cirúrgicas principais?
+E5C: O sucesso visual depende da mácula permanecer aplicada até a cirurgia. O paciente pergunta sobre o olho esquerdo.
+E5Q: O que define um descolamento como "regmatogênico" e por que o olho contralateral deve ser mapeado?
+===
+TITULO: Oclusão da Artéria Central da Retina (OACR)
+TEMA: Emergência Vascular
+DIFICULDADE: Difícil
+E1C: H.P.L., 72 anos. Perda visual súbita, completa e indolor em OE há 3 horas, logo ao acordar.
+E1Q: Em perdas visuais súbitas e indolores, quais as principais hipóteses vasculares a considerar?
+E2C: Paciente hipertenso, diabético e ex-tabagista. Relata episódio de amaurose fugaz em OE há 1 mês (perda transitória por 5 min).
+E2Q: O que o antecedente de amaurose fugaz sugere sobre a provável fonte embólica do problema?
+E3C: AV OE: Percepção Luminosa. Defeito pupilar aferente (Marcus Gunn +). Fundoscopia: Palidez retiniana difusa com mancha vermelho-cereja na fóvea.
+E3Q: Qual o diagnóstico e por que a fóvea mantém a cor vermelha enquanto o restante da retina fica pálido?
+E4C: Emergência máxima. A janela terapêutica para tentar restaurar o fluxo é de apenas 4 a 6 horas.
+E4Q: Quais manobras físicas e medicações podem ser tentadas imediatamente para deslocar o provável êmbolo?
+E5C: O prognóstico visual é reservado, mas a investigação sistêmica é vital para prevenir um acidente vascular cerebral (AVC).
+E5Q: Quais exames sistêmicos (carótidas/coração) são obrigatórios e qual a importância de avaliar a Arterite de Células Gigantes?
+===
+TITULO: Retinopatia Diabética Proliferativa
+TEMA: Retina / Doença Sistêmica
+DIFICULDADE: Médio
+E1C: M.A.P., 56 anos, diabética há 15 anos. Visão borrada e "manchas" no campo visual há 1 mês. Controle glicêmico irregular.
+E1Q: Quais são as principais alterações retinianas esperadas em um paciente diabético de longa data e mal controlado?
+E2C: HbA1c recente: 9,2%. Refere manchas escuras flutuantes (miodesopsias). Última avaliação oftalmológica foi há 3 anos.
+E2Q: Por que o controle da hemoglobina glicada é fundamental e o que as miodesopsias podem sugerir neste caso?
+E3C: Fundoscopia: Neovasos no disco óptico e em outros locais, hemorragias pré-retinianas, exsudatos duros e edema macular.
+E3Q: Qual a classificação desta retinopatia e qual o risco iminente associado à presença de neovasos?
+E4C: O tratamento visa regredir os neovasos e tratar o edema macular para preservar a visão central e periférica.
+E4Q: Explique o papel da Panfotocoagulação a Laser (PFC) e das injeções de Anti-VEGF neste contexto.
+E5C: A paciente pergunta se o controle do diabetes pode "limpar" os vasos que já cresceram na retina.
+E5Q: Qual a importância do controle sistêmico (PA/Glicemia) e quais as complicações tardias se não houver tratamento?
+===
+TITULO: Degeneração Macular Relacionada à Idade (DMRI)
+TEMA: Retina / Degenerativa
+DIFICULDADE: Médio
+E1C: I.S.M., 78 anos. Distorção de imagens (metamorfopsia) e mancha central no campo visual de OD há 2 semanas. Ex-tabagista.
+E1Q: A metamorfopsia é um sintoma clássico de qual região anatômica do olho?
+E2C: Dificuldade para reconhecer rostos e ler. Mãe teve problema semelhante. Visão em OE já é baixa há anos.
+E2Q: Quais são os principais fatores de risco para DMRI presentes nesta paciente e o que a genética influencia?
+E3C: Tela de Amsler mostra distorção central. Fundoscopia (OD): Drusas confluentes, hemorragia e líquido subretiniano na área macular.
+E3Q: Qual a forma da DMRI (seca ou úmida/exsudativa) e qual exame de imagem confirma o líquido subretiniano?
+E4C: O tratamento da forma neovascular deve ser iniciado o mais breve possível para evitar cicatriz disciforme permanente.
+E4Q: Qual a terapia padrão ouro atual para a DMRI exsudativa e como ela funciona?
+E5C: A paciente pergunta se deve tomar vitaminas e se o cigarro que fumou no passado ainda tem influência.
+E5Q: Qual o papel da suplementação (AREDS2) e quais orientações de estilo de vida devem ser reforçadas?
+===
+TITULO: Catarata Senil
+TEMA: Cristalino
+DIFICULDADE: Fácil
+E1C: O.F.A., 68 anos, motorista aposentado. Visão embaçada progressiva bilateral há 2 anos. Refere piora importante ao dirigir à noite (ofuscamento).
+E1Q: Como a opacificação do cristalino altera a percepção visual do paciente em relação a cores e luzes?
+E2C: Necessidade de trocar óculos com frequência. Nega dor ou hiperemia. Dificuldade para ler placas e legendas na TV.
+E2Q: Por que o "ofuscamento" noturno e a mudança frequente de refração (miopização) ocorrem na catarata?
+E3C: AV 20/200 em OD. Biomicroscopia: Cristalino com opacificação nuclear 3+ e cortical. Reflexo vermelho diminuído.
+E3Q: Qual o diagnóstico e qual o critério principal para indicar a intervenção cirúrgica?
+E4C: O tratamento é exclusivamente cirúrgico, visando a substituição da lente natural opaca por uma prótese.
+E4Q: Como se chama a técnica cirúrgica moderna (utilizando ultrassom) e o que é a Lente Intraocular (LIO)?
+E5C: Paciente pergunta se a catarata pode "voltar" após a cirurgia e quais os cuidados nos primeiros dias.
+E5Q: Esclareça sobre a opacificação da cápsula posterior e cite três cuidados pós-operatórios essenciais.
+===
+TITULO: Hordéolo (Terçol)
+TEMA: Pálpebras / Infecciosa
+DIFICULDADE: Fácil
+E1C: C.M.R., 32 anos, vendedora. Inchaço doloroso, avermelhado e quente na borda da pálpebra superior direita há 2 dias.
+E1Q: Qual a diferença entre hordéolo e calázio quanto à clínica inicial (dor e inflamação)?
+E2C: Usa maquiagem diariamente. Refere episódios semelhantes no passado. Hoje notou um ponto amarelado na borda palpebral.
+E2Q: Quais glândulas palpebrais podem estar envolvidas na formação de um hordéolo externo?
+E3C: Inspeção: Nódulo eritematoso e doloroso com ponto de supuração visível na base de um cílio. Sinais de blefarite associada.
+E3Q: Qual o diagnóstico clínico e qual o principal agente bacteriano envolvido?
+E4C: A maioria dos casos responde bem a medidas conservadoras de calor e higiene local.
+E4Q: Qual o papel das compressas mornas e quando o uso de antibióticos tópicos/sistêmicos é indicado?
+E5C: A paciente pergunta se pode "espremer" a lesão para acelerar a saída do pus.
+E5Q: Por que espremer a lesão é perigoso e quais orientações sobre o uso de cosméticos durante o quadro?
+===
+TITULO: Calázio
+TEMA: Pálpebras / Inflamatória
+DIFICULDADE: Fácil
+E1C: F.L.S., 45 anos, contador. Nódulo indolor na pálpebra inferior esquerda há 3 semanas. Tem aumentado lentamente.
+E1Q: O calázio é uma reação inflamatória crônica. Qual a diferença fisiopatológica em relação ao hordéolo?
+E2C: Nega dor ou secreção. Refere blefarite crônica e rosácea. Sente um peso na pálpebra que borra levemente a visão.
+E2Q: Como condições dermatológicas como a rosácea se relacionam com a saúde das glândulas de Meibomius?
+E3C: Inspeção: Nódulo firme, indolor e móvel na placa tarsal. Everter a pálpebra revela área elevada na conjuntiva tarsal.
+E3Q: Qual o diagnóstico e por que o calázio pode causar astigmatismo e embaçamento visual?
+E4C: O tratamento inicial é conservador, mas lesões persistentes podem exigir intervenção.
+E4Q: Descreva as opções de tratamento, desde compressas até injeção de corticoide ou cirurgia.
+E5C: O paciente teme que seja um tumor, pois o nódulo não some.
+E5Q: Em quais situações (idade/recorrência) devemos suspeitar de malignidade (ex: Carcinoma de Glândulas Sebáceas)?
+===
+TITULO: Uveíte Anterior Aguda
+TEMA: Inflamatória / Uveíte
+DIFICULDADE: Médio
+E1C: D.A.M., 38 anos, engenheiro. Dor ocular, olho vermelho e fotofobia intensa em OD há 2 dias. Visão levemente borrada.
+E1Q: A tríade dor, olho vermelho e fotofobia sem secreção purulenta sugere qual quadro inflamatório?
+E2C: Já teve episódio semelhante no outro olho. Refere dor lombar crônica que melhora com o exercício e piora no repouso.
+E2Q: Qual a associação entre uveítes anteriores e espondiloartropatias (ex: Espondilite Anquilosante)?
+E3C: Biomicroscopia: Injeção ciliar (hiperemia perilímbica), Tyndall (células) em câmara anterior e sinéquias posteriores.
+E3Q: Qual o diagnóstico e o que são as "sinéquias posteriores" observadas no exame?
+E4C: O tratamento visa reduzir a inflamação e evitar complicações permanentes como o bloqueio pupilar.
+E4Q: Explique o uso de corticoides tópicos e por que colírios cicloplégicos (midriáticos) são essenciais aqui.
+E5C: O paciente pergunta se a doença pode voltar e se deve investigar a coluna.
+E5Q: Qual o papel do marcador HLA-B27 e quais as possíveis sequelas de uveítes recorrentes mal tratadas?
+===
+TITULO: Neurite Óptica
+TEMA: Neuroftalmologia
+DIFICULDADE: Difícil
+E1C: B.S.L., 29 anos, fisioterapeuta. Perda visual súbita em OE e dor ao movimentar o olho há 3 dias. Cores parecem "desbotadas".
+E1Q: Perda visual dolorosa em paciente jovem sugere envolvimento de qual estrutura nervosa?
+E2C: Refere que há 6 meses teve dormência transitória em uma perna. Tia materna tem esclerose múltipla (EM).
+E2Q: Qual a correlação entre neurite óptica e doenças desmielinizantes do sistema nervoso central?
+E3C: AV 20/200. Defeito pupilar aferente (Marcus Gunn +++). Fundoscopia pode estar normal (neurite retrobulbar) ou com leve edema de disco.
+E3Q: Qual o diagnóstico e o que significa o termo "neurite retrobulbar" (o paciente vê nada, o médico vê nada)?
+E4C: O diagnóstico requer exames de imagem para avaliar o nervo óptico e o parênquima cerebral.
+E4Q: Qual o exame de imagem padrão ouro e qual o tratamento inicial recomendado (Protocolo ONTT)?
+E5C: A paciente está muito ansiosa sobre o risco de ter esclerose múltipla futuramente.
+E5Q: Qual o prognóstico visual típico da neurite óptica e qual a importância do seguimento neurológico?
+===
+TITULO: Celulite Orbitária
+TEMA: Emergência / Infecciosa
+DIFICULDADE: Médio
+E1C: G.H.N., 8 anos. Inchaço, vermelhidão e dor intensa em OD há 2 dias. Iniciou quadro de sinusite há 5 dias.
+E1Q: Diante de edema palpebral em criança com história de sinusite, qual sua principal preocupação?
+E2C: Criança prostrada, febre de 38,8°C. Piora da dor e dificuldade para movimentar o olho nas últimas 24 horas.
+E2Q: Como diferenciar clinicamente a Celulite Orbitária (grave) da Celulite Pré-septal (menos grave)?
+E3C: Inspeção: Proptose (olho saltado), quemose e limitação dolorosa da motilidade ocular (oftalmoplegia).
+E3Q: Qual o diagnóstico e qual exame de imagem deve ser solicitado com urgência para avaliar abscessos?
+E4C: Trata-se de uma emergência que exige hospitalização para evitar complicações intracranianas ou perda visual.
+E4Q: Qual a conduta imediata quanto à via de administração de antibióticos e quais as classes recomendadas?
+E5C: A mãe pergunta sobre os riscos de cirurgia e se a criança pode ter sequelas no cérebro.
+E5Q: Quais as complicações possíveis (ex: Trombose de Seio Cavernoso) e quais os critérios para drenagem cirúrgica?
+===
+TITULO: Hifema Traumático
+TEMA: Emergência / Trauma
+DIFICULDADE: Médio
+E1C: T.P.C., 15 anos. Trauma ocular por bola de futebol em OE há 3 horas. Dor intensa e visão muito borrada após o golpe.
+E1Q: O que é o hifema e qual o mecanismo fisiopatológico do sangramento após trauma contuso?
+E2C: Refere que notou uma "camada de sangue" dentro do olho ao olhar no espelho. Paciente tem traço falciforme.
+E2Q: Por que a presença de traço falciforme ou anemia falciforme torna o hifema muito mais perigoso?
+E3C: AV 20/200. Biomicroscopia: Sangue ocupando 1/3 inferior da câmara anterior (Grau II). PIO elevada (24 mmHg).
+E3Q: Qual o diagnóstico e qual a principal complicação aguda associada ao hifema (além da re-hemorragia)?
+E4C: O tratamento visa estabilizar o coágulo, controlar a PIO e evitar novos sangramentos.
+E4Q: Descreva as medidas de suporte: posição da cabeceira, protetor ocular e colírios necessários.
+E5C: O paciente pergunta se pode voltar a jogar futebol amanhã se a visão melhorar.
+E5Q: Qual o risco de re-hemorragia (geralmente entre o 2º e 5º dia) e quais orientações de repouso são vitais?
+===
+TITULO: Queimadura Química Ocular
+TEMA: Emergência / Trauma
+DIFICULDADE: Difícil
+E1C: V.M.S., 35 anos, operário. Respingo de soda cáustica (álcali) nos olhos há 30 minutos. Dor insuportável e blefaroespasmo.
+E1Q: Por que queimaduras por álcalis são geralmente mais graves do que queimaduras por ácidos?
+E2C: Colegas lavaram o olho com um pouco de água logo após o acidente. Visão está muito turva.
+E2Q: Qual a conduta de primeiros socorros que deve ser feita ainda no local de trabalho ou no trajeto?
+E3C: pH conjuntival ainda elevado (9,5). Isquemia límbica (olho muito branco por falta de perfusão) e opacificação corneana.
+E3Q: Qual o diagnóstico e o que a "isquemia límbica" representa em termos de prognóstico para a cicatrização da córnea?
+E4C: A prioridade absoluta é a remoção do agente químico remanescente nos tecidos.
+E4Q: Como deve ser feita a irrigação na emergência e qual o objetivo em relação ao pH lacrimal?
+E5C: O paciente pergunta se vai voltar a enxergar e se precisa usar algum "remédio forte".
+E5Q: Cite as medicações adjuvantes (Vitamina C, Antibióticos, Ciclopegia) e o risco de simbléfaro (fusão das pálpebras).
+===
+TITULO: Pterígio
+TEMA: Superfície Ocular
+DIFICULDADE: Fácil
+E1C: N.R.A., 52 anos, agricultor no Piauí. Queixa de "carne crescida" no canto do olho há anos. Irritação e vermelhidão frequentes.
+E1Q: Quais são os principais fatores de risco ambientais associados ao desenvolvimento do pterígio?
+E2C: A lesão está avançando em direção à pupila e o paciente sente a visão "puxando" e borrada.
+E2Q: Como o pterígio pode alterar a acuidade visual (astigmatismo induzido ou obstrução do eixo visual)?
+E3C: Biomicroscopia: Lesão triangular fibrovascular crescendo da conjuntiva nasal sobre a córnea, atingindo 3mm (Grau III).
+E3Q: Qual o diagnóstico e como diferenciá-lo de uma pinguécula?
+E4C: O tratamento inicial visa o conforto, mas casos avançados ou sintomáticos exigem cirurgia.
+E4Q: Quais as indicações cirúrgicas e qual a técnica recomendada para reduzir a taxa de recorrência?
+E5C: O paciente pergunta se a "carne" pode voltar após a cirurgia e se deve usar óculos de sol.
+E5Q: Explique a importância da proteção UV e o papel do autotransplante conjuntival na prevenção da recidiva.
+===
+TITULO: Síndrome do Olho Seco
+TEMA: Superfície Ocular
+DIFICULDADE: Fácil
+E1C: P.L.M., 58 anos, secretária. Sensação de areia nos olhos, ardência e lacrimejamento paradoxal há 1 ano. Piora ao usar computador.
+E1Q: Como o uso excessivo de telas (computador/celular) contribui para os sintomas de olho seco?
+E2C: Refere também boca seca e dores nas articulações (Artrite Reumatoide). Sintomas pioram em ambientes com ar condicionado.
+E2Q: Qual a associação entre doenças reumatológicas (ex: Síndrome de Sjögren) e a produção de lágrimas?
+E3C: Biomicroscopia: Ceratite punctata (pequenos pontos corados por fluoresceína) e tempo de ruptura do filme lacrimal (BUT) reduzido.
+E3Q: Qual o diagnóstico e o que o lacrimejamento paradoxal (olho seco que chora) significa fisiopatologicamente?
+E4C: O tratamento foca em repor a lágrima, reduzir a evaporação e controlar a inflamação da superfície ocular.
+E4Q: Quais as opções terapêuticas iniciais (lubrificantes, higiene palpebral, ômega-3)?
+E5C: A paciente pergunta se deve usar o colírio que "tira o vermelho" (vasoconstritores) para melhorar a aparência.
+E5Q: Por que colírios vasoconstritores são prejudiciais a longo prazo e quais as medidas ambientais recomendadas?
+===
+TITULO: Hemorragia Vítrea
+TEMA: Emergência / Retina
+DIFICULDADE: Difícil
+E1C: W.S.F., 63 anos. Perda visual súbita em OD há 1 dia. Refere miodesopsias ("nuvens pretas") antes da visão escurecer totalmente.
+E1Q: Perda visual súbita e indolor com miodesopsias sugere sangramento em qual cavidade ocular?
+E2C: Diabético há 20 anos com controle irregular. Nega trauma. Refere que o outro olho já tem "problema de laser".
+E2Q: Qual a causa mais comum de hemorragia vítrea espontânea em pacientes idosos e diabéticos?
+E3C: Fundoscopia OD: Ausência de reflexo vermelho, impossível visualizar a retina devido ao sangue denso no vítreo.
+E3Q: Qual o diagnóstico e qual exame de imagem é mandatório quando a opacidade de meios impede a fundoscopia?
+E4C: O tratamento depende da causa base e da presença ou não de descolamento de retina associado.
+E4Q: Qual a conduta inicial quanto ao repouso e o papel da Vitrectomia via Pars Plana neste caso?
+E5C: O paciente está preocupado com o risco de cegueira bilateral e pergunta se o laser resolve o sangue.
+E5Q: Esclareça o papel do laser (PFC) na prevenção e o controle glicêmico na estabilização da doença.
+===
+TITULO: Papiledema
+TEMA: Neuroftalmologia
+DIFICULDADE: Médio
+E1C: K.A.S., 25 anos, enfermeira. Cefaleia intensa, náuseas e episódios curtos de visão turva (segundos) há 2 semanas. Obesa.
+E1Q: O que define o termo "papiledema" e como ele se diferencia de um "edema de papila" unilateral?
+E2C: Usa anticoncepcional oral. Cefaleia piora ao deitar ou ao tossir. Refere zumbido pulsátil nos ouvidos.
+E2Q: Por que o sexo feminino, obesidade e certas medicações são fatores de risco para Hipertensão Intracraniana Idiopática?
+E3C: AV 20/25. Fundoscopia: Edema bilateral de disco óptico com borramento de margens e ausência de pulsação venosa.
+E3Q: Qual o diagnóstico e qual a gravidade da ausência de pulsação venosa espontânea neste contexto?
+E4C: É necessário investigar causas estruturais intracranianas antes de assumir uma causa idiopática.
+E4Q: Quais os próximos passos diagnósticos (imagem e punção) e qual o principal objetivo do tratamento?
+E5C: A paciente pergunta se a perda de peso realmente ajuda e se ela corre risco de perder a visão definitivamente.
+E5Q: Explique o papel da perda de peso, da Acetazolamida e as possíveis sequelas visuais se a pressão não for controlada.
+===
+TITULO: Ceratocone
+TEMA: Córnea / Degenerativa
+DIFICULDADE: Médio
+E1C: Y.M.P., 19 anos, estudante. Piora progressiva da visão; troca de óculos a cada 6 meses sem melhora satisfatória.
+E1Q: Qual a característica do astigmatismo no ceratocone (regular ou irregular) e por que os óculos param de funcionar?
+E2C: Refere rinite alérgica e o hábito de coçar muito os olhos. Nota luzes "esparramadas" à noite (ofuscamento).
+E2Q: Explique a relação direta entre o hábito de coçar os olhos e a progressão do ceratocone.
+E3C: Biomicroscopia: Afinamento corneano inferior central e Sinal de Munson (pálpebra inferior abaulada ao olhar para baixo).
+E3Q: Qual o diagnóstico e qual exame de imagem (topografia/tomografia) é essencial para o estadiamento?
+E4C: O tratamento varia desde a correção óptica com lentes especiais até procedimentos para estabilizar a córnea.
+E4Q: O que é o Crosslinking de colágeno e em qual fase da doença ele é indicado?
+E5C: O paciente pergunta se terá que fazer transplante de córnea obrigatoriamente no futuro.
+E5Q: Descreva as opções modernas (anéis intracorneanos) e as orientações comportamentais para evitar a progressão.
