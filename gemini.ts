@@ -8,13 +8,11 @@ export interface AIFeedbackResponse {
   justification: string;
 }
 
-const getAiClient = () => {
-  const apiKey = (window as any).process?.env?.API_KEY || "";
-  return new GoogleGenAI({ apiKey });
-};
+// Inicializa a IA conforme as diretrizes (deve usar process.env.API_KEY diretamente)
+const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
 
 export async function validateApiKey(): Promise<{success: boolean, message: string, technicalError?: string}> {
-  const apiKey = (window as any).process?.env?.API_KEY || "";
+  const apiKey = process.env.API_KEY || "";
   
   if (!apiKey || apiKey.length < 10) {
     return { 
@@ -25,7 +23,7 @@ export async function validateApiKey(): Promise<{success: boolean, message: stri
   }
   
   try {
-    const ai = getAiClient();
+    // Testa a conexão com um prompt simples
     await ai.models.generateContent({
       model: "gemini-3-flash-preview",
       contents: "ping",
@@ -46,7 +44,6 @@ export async function getClinicalFeedback(
   stageIndex: number,
   studentResponse: string
 ): Promise<AIFeedbackResponse> {
-  const ai = getAiClient();
   const currentStage = currentCase.stages[stageIndex];
   
   const systemInstruction = `Você é um professor sênior de Oftalmologia avaliando um aluno de graduação em Medicina.
@@ -64,7 +61,8 @@ export async function getClinicalFeedback(
   PERGUNTA FEITA: ${currentStage.question}
   RESPOSTA DO ALUNO: ${studentResponse}
   
-  Forneça o feedback em formato JSON.`;
+  Analise se o aluno identificou corretamente a patologia ou conduta baseada na descrição.
+  Forneça o feedback em formato JSON estruturado.`;
 
   try {
     const response = await ai.models.generateContent({
@@ -77,8 +75,8 @@ export async function getClinicalFeedback(
           type: Type.OBJECT,
           properties: {
             feedback: { type: Type.STRING, description: "Feedback detalhado em Markdown para o aluno." },
-            score: { type: Type.NUMBER, description: "Nota de 0 a 3." },
-            justification: { type: Type.STRING, description: "Justificativa curta para a nota." }
+            score: { type: Type.NUMBER, description: "Nota numérica de 0 a 3." },
+            justification: { type: Type.STRING, description: "Justificativa pedagógica curta para a nota." }
           },
           required: ["feedback", "score", "justification"]
         }
@@ -86,11 +84,12 @@ export async function getClinicalFeedback(
     });
 
     const jsonText = response.text;
-    if (!jsonText) throw new Error("IA retornou resposta vazia.");
+    if (!jsonText) throw new Error("A IA retornou uma resposta vazia.");
     
-    return JSON.parse(jsonText) as AIFeedbackResponse;
+    return JSON.parse(jsonText.trim()) as AIFeedbackResponse;
   } catch (error: any) {
     console.error("Erro no Processamento Gemini:", error);
     throw new Error(error.message || "Erro ao consultar o Tutor Inteligente.");
   }
 }
+
