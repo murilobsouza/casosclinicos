@@ -10,21 +10,47 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Inter', sans-serif; }
+        body { font-family: 'Inter', sans-serif; margin: 0; padding: 0; }
         #root:empty::before {
-            content: "Carregando aplicação...";
+            content: "Iniciando Tutor Oftalmo...";
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
-            color: #6366f1;
-            font-weight: bold;
-            font-family: sans-serif;
+            color: #4f46e5;
+            font-weight: 700;
+            font-size: 1.2rem;
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse { 0% { opacity: 0.5; } 50% { opacity: 1; } 100% { opacity: 0.5; } }
+        #error-display {
+            display: none;
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            right: 20px;
+            background: #fee2e2;
+            border: 2px solid #ef4444;
+            color: #b91c1c;
+            padding: 15px;
+            border-radius: 12px;
+            z-index: 9999;
+            font-family: monospace;
+            font-size: 12px;
+            box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
         }
     </style>
     <script>
-        // Shim fundamental para evitar erro de "process is not defined"
-        window.process = { env: {} };
+        // Previne erro de "process is not defined" e captura erros globais
+        window.process = { env: { API_KEY: "" } };
+        window.onerror = function(msg, url, lineNo, columnNo, error) {
+            const display = document.getElementById('error-display');
+            if (display) {
+                display.style.display = 'block';
+                display.innerHTML = '<strong>Erro de Carregamento:</strong> ' + msg + '<br><small>' + url + ' L:' + lineNo + '</small>';
+            }
+            return false;
+        };
     </script>
 <script type="importmap">
 {
@@ -34,7 +60,7 @@
     "react-dom/client": "https://esm.sh/react-dom@19.0.0/client",
     "react/jsx-runtime": "https://esm.sh/react@19.0.0/jsx-runtime",
     "lucide-react": "https://esm.sh/lucide-react@0.460.0?external=react",
-    "openai": "https://esm.sh/openai@4.83.0",
+    "@google/genai": "https://esm.sh/@google/genai@0.1.0",
     "recharts": "https://esm.sh/recharts@2.12.7?external=react,react-dom",
     "@supabase/supabase-js": "https://esm.sh/@supabase/supabase-js@2.45.0",
     "react-dom/": "https://esm.sh/react-dom@^19.2.4/",
@@ -45,5 +71,6 @@
 </head>
 <body class="bg-slate-50 text-slate-900">
     <div id="root"></div>
+    <div id="error-display"></div>
 </body>
 </html>
