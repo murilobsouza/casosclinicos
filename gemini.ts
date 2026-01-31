@@ -92,4 +92,3 @@ export async function getClinicalFeedback(
     throw new Error(error.message || "Erro ao consultar o Tutor Inteligente.");
   }
 }
-
