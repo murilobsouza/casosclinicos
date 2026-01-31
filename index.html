@@ -19,22 +19,26 @@
             height: 100vh;
             color: #6366f1;
             font-weight: bold;
+            font-family: sans-serif;
         }
     </style>
     <script>
-        // Shim fundamental para evitar erro de "process is not defined" que trava o React
-        window.process = window.process || { env: {} };
+        // Shim fundamental para evitar erro de "process is not defined"
+        window.process = { env: {} };
     </script>
 <script type="importmap">
 {
   "imports": {
-    "lucide-react": "https://esm.sh/lucide-react@^0.562.0",
-    "react": "https://esm.sh/react@^19.2.3",
-    "react/": "https://esm.sh/react@^19.2.3/",
-    "react-dom": "https://esm.sh/react-dom@^19.2.3",
-    "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
-    "openai": "https://esm.sh/openai@^4.83.0",
-    "recharts": "https://esm.sh/recharts@^3.6.0"
+    "react": "https://esm.sh/react@19.0.0",
+    "react-dom": "https://esm.sh/react-dom@19.0.0",
+    "react-dom/client": "https://esm.sh/react-dom@19.0.0/client",
+    "react/jsx-runtime": "https://esm.sh/react@19.0.0/jsx-runtime",
+    "lucide-react": "https://esm.sh/lucide-react@0.460.0?external=react",
+    "openai": "https://esm.sh/openai@4.83.0",
+    "recharts": "https://esm.sh/recharts@2.12.7?external=react,react-dom",
+    "@supabase/supabase-js": "https://esm.sh/@supabase/supabase-js@2.45.0",
+    "react-dom/": "https://esm.sh/react-dom@^19.2.4/",
+    "react/": "https://esm.sh/react@^19.2.4/"
   }
 }
 </script>
