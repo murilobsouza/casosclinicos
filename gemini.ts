@@ -11,22 +11,35 @@ export interface AIFeedbackResponse {
 /**
  * Verifica se a API Key está presente e funcional.
  */
-export async function validateApiKey(): Promise<{success: boolean, message: string}> {
+export async function validateApiKey(): Promise<{success: boolean, message: string, code?: string}> {
   const apiKey = process.env.API_KEY;
-  if (!apiKey) return { success: false, message: "Variável API_KEY não encontrada no sistema." };
+  if (!apiKey || apiKey.trim() === "" || apiKey.includes("your_api_key")) {
+    return { success: false, message: "A variável API_KEY não foi configurada ou contém um valor padrão.", code: "MISSING" };
+  }
   
   try {
     const ai = new GoogleGenAI({ apiKey });
-    // Faz uma chamada ultra simples apenas para testar a chave
     const response = await ai.models.generateContent({
       model: "gemini-3-flash-preview",
-      contents: [{ text: "oi" }],
-      config: { maxOutputTokens: 1 }
+      contents: [{ text: "ping" }],
+      config: { 
+        maxOutputTokens: 1,
+        thinkingConfig: { thinkingBudget: 0 }
+      }
     });
-    return { success: true, message: "Conexão com Gemini API estabelecida com sucesso!" };
+    return { success: true, message: "Conexão com Gemini API estabelecida!" };
   } catch (error: any) {
-    console.error("Erro no Teste de API:", error);
-    return { success: false, message: `Erro na API: ${error.message}` };
+    console.group("Diagnóstico de API");
+    console.error("Status:", error.status);
+    console.error("Mensagem:", error.message);
+    console.groupEnd();
+
+    const msg = error.message || "";
+    // Erro 400 do Google geralmente indica chave mal formatada ou inválida
+    if (msg.includes("API key not valid") || msg.includes("INVALID_ARGUMENT") || msg.includes("400")) {
+      return { success: false, message: "A chave API_KEY configurada é inválida ou expirou.", code: "INVALID" };
+    }
+    return { success: false, message: `Erro na API: ${msg}`, code: "ERROR" };
   }
 }
 
@@ -46,29 +59,26 @@ export async function getClinicalFeedback(
   const apiKey = process.env.API_KEY;
 
   if (!apiKey) {
-    throw new Error("Configuração ausente: Chave de API não detectada no ambiente.");
+    throw new Error("Chave de API não detectada.");
   }
 
   const ai = new GoogleGenAI({ apiKey });
   const currentStage = currentCase.stages[stageIndex];
   
   const systemInstruction = `
-    Você é um Tutor especializado em Oftalmologia para alunos de graduação em Medicina.
-    Avalie a resposta do aluno para a etapa atual.
-    Retorne um JSON com: feedback (string), score (0-3), justification (string).
-    Caso: ${currentCase.title}. Etapa ${stageIndex + 1}.
+    Você é um Tutor especializado em Oftalmologia.
+    Avalie a resposta do aluno e retorne JSON: feedback, score (0-3), justification.
   `;
 
   try {
     const response = await ai.models.generateContent({
-      model: "gemini-3-flash-preview",
+      model: "gemini-3-pro-preview",
       contents: [
-        { text: `Pergunta: ${currentStage.question}\nResposta do Aluno: ${studentResponse}` }
+        { text: `Pergunta: ${currentStage.question}\nResposta: ${studentResponse}` }
       ],
       config: {
         systemInstruction,
         responseMimeType: "application/json",
-        thinkingConfig: { thinkingBudget: 0 },
         responseSchema: {
           type: Type.OBJECT,
           properties: {
@@ -81,20 +91,8 @@ export async function getClinicalFeedback(
       }
     });
 
-    const jsonStr = cleanJsonString(response.text || "{}");
-    return JSON.parse(jsonStr);
-
+    return JSON.parse(cleanJsonString(response.text || "{}"));
   } catch (error: any) {
-    console.group("Erro na Integração Gemini");
-    console.error("Mensagem:", error.message);
-    console.groupEnd();
-
-    let userMessage = "Houve um erro ao processar sua resposta. ";
-    if (error.message?.includes("429")) userMessage += "Cota de uso excedida.";
-    else if (error.message?.includes("403")) userMessage += "Chave de API sem permissão ou inválida.";
-    else userMessage += "Verifique a configuração da variável API_KEY.";
-
-    throw new Error(userMessage);
+    throw new Error("Erro na IA. Por favor, verifique se sua chave de API é válida.");
   }
 }
-
