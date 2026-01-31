@@ -8,11 +8,24 @@ export interface AIFeedbackResponse {
   justification: string;
 }
 
-// Inicializa o cliente OpenAI
-// Nota: Em um ambiente real de produção, você não deve expor a chave no frontend.
-// Estamos usando dangerouslyAllowBrowser porque este é um protótipo educacional.
+/**
+ * Função utilitária para obter a chave de API de forma segura no navegador.
+ */
+const getSafeApiKey = (): string => {
+  try {
+    // @ts-ignore
+    if (typeof process !== 'undefined' && process.env) {
+      // @ts-ignore
+      return process.env.OPENAI_API_KEY || process.env.API_KEY || '';
+    }
+  } catch (e) {
+    console.warn("Ambiente de variáveis 'process' não detectado.");
+  }
+  return '';
+};
+
 const getClient = () => {
-  const apiKey = process.env.OPENAI_API_KEY || process.env.API_KEY;
+  const apiKey = getSafeApiKey();
   return new OpenAI({
     apiKey: apiKey,
     dangerouslyAllowBrowser: true
@@ -20,13 +33,13 @@ const getClient = () => {
 };
 
 export async function validateApiKey(): Promise<{success: boolean, message: string, technicalError?: string}> {
-  const apiKey = process.env.OPENAI_API_KEY || process.env.API_KEY;
+  const apiKey = getSafeApiKey();
   
   if (!apiKey || apiKey.trim() === "" || apiKey.length < 10) {
     return { 
       success: false, 
-      message: "Chave OpenAI não encontrada no ambiente.",
-      technicalError: "Variável OPENAI_API_KEY ou API_KEY não configurada."
+      message: "Chave de API não detectada.",
+      technicalError: "Verifique se você configurou a variável API_KEY ou OPENAI_API_KEY nos 'Secrets'."
     };
   }
   
@@ -34,7 +47,7 @@ export async function validateApiKey(): Promise<{success: boolean, message: stri
     const openai = getClient();
     await openai.chat.completions.create({
       model: "gpt-4o-mini",
-      messages: [{ role: "user", content: "p" }],
+      messages: [{ role: "user", content: "ping" }],
       max_tokens: 1
     });
     return { success: true, message: "ChatGPT Online" };
@@ -43,7 +56,7 @@ export async function validateApiKey(): Promise<{success: boolean, message: stri
     return { 
       success: false, 
       message: "Falha na conexão com a OpenAI.",
-      technicalError: error.message || "Erro desconhecido na API."
+      technicalError: error.message || "Erro de rede ou chave inválida."
     };
   }
 }
