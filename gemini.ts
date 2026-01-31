@@ -1,6 +1,6 @@
 
-import OpenAI from "openai";
-import { ClinicalCase } from "./types";
+import { GoogleGenAI, Type } from "@google/genai";
+import { ClinicalCase } from "./types.ts";
 
 export interface AIFeedbackResponse {
   feedback: string;
@@ -8,52 +8,35 @@ export interface AIFeedbackResponse {
   justification: string;
 }
 
-/**
- * Função de acesso seguro às chaves, lidando com diferentes ambientes de injeção.
- */
-const getSafeApiKey = (): string => {
-  try {
-    // Tenta pegar do process.env injetado ou do window.process definido no html
-    const env = (window as any).process?.env || {};
-    return env.OPENAI_API_KEY || env.API_KEY || "";
-  } catch (e) {
-    return "";
-  }
-};
-
-const getClient = () => {
-  const apiKey = getSafeApiKey();
-  return new OpenAI({
-    apiKey: apiKey,
-    dangerouslyAllowBrowser: true
-  });
+const getAiClient = () => {
+  const apiKey = (window as any).process?.env?.API_KEY || "";
+  return new GoogleGenAI({ apiKey });
 };
 
 export async function validateApiKey(): Promise<{success: boolean, message: string, technicalError?: string}> {
-  const apiKey = getSafeApiKey();
+  const apiKey = (window as any).process?.env?.API_KEY || "";
   
-  if (!apiKey || apiKey.trim() === "" || apiKey.length < 10) {
+  if (!apiKey || apiKey.length < 10) {
     return { 
       success: false, 
-      message: "Chave OpenAI não detectada.",
-      technicalError: "Configure 'API_KEY' ou 'OPENAI_API_KEY' nas variáveis de ambiente."
+      message: "Chave Gemini não configurada.",
+      technicalError: "Certifique-se de que a variável API_KEY está definida nos segredos do projeto."
     };
   }
   
   try {
-    const openai = getClient();
-    await openai.chat.completions.create({
-      model: "gpt-4o-mini",
-      messages: [{ role: "user", content: "ping" }],
-      max_tokens: 1
+    const ai = getAiClient();
+    await ai.models.generateContent({
+      model: "gemini-3-flash-preview",
+      contents: "ping",
     });
-    return { success: true, message: "ChatGPT Online" };
+    return { success: true, message: "Gemini Online" };
   } catch (error: any) {
-    console.error("Erro OpenAI:", error);
+    console.error("Erro Gemini Auth:", error);
     return { 
       success: false, 
-      message: "Falha na conexão com a OpenAI.",
-      technicalError: error.message || "Erro de rede ou chave inválida."
+      message: "Falha na conexão com Google AI.",
+      technicalError: error.message
     };
   }
 }
@@ -63,40 +46,51 @@ export async function getClinicalFeedback(
   stageIndex: number,
   studentResponse: string
 ): Promise<AIFeedbackResponse> {
-  const openai = getClient();
+  const ai = getAiClient();
   const currentStage = currentCase.stages[stageIndex];
   
-  const systemPrompt = `Você é um experiente professor de oftalmologia. 
-  Avalie a resposta do aluno de medicina para o caso: ${currentCase.title}.
+  const systemInstruction = `Você é um professor sênior de Oftalmologia avaliando um aluno de graduação em Medicina.
+  Analise a resposta técnica do aluno para o caso clínico fornecido.
   
-  Regras de Avaliação:
-  1. Forneça feedback construtivo em Markdown.
-  2. Atribua um score de 0 a 3 baseado na precisão técnica.
-  3. A resposta DEVE ser um objeto JSON com os campos: feedback, score, justification.
-  4. Seja rigoroso com a terminologia médica oftalmológica.`;
+  CRITÉRIOS DE AVALIAÇÃO:
+  - Pontuação (score): 0 (Incorreto), 1 (Incompleto), 2 (Bom), 3 (Excelente/Completo).
+  - Linguagem: Técnica, mas encorajadora (Markdown).
+  - Rigor: Avalie termos oftalmológicos e condutas clínicas.`;
 
-  const userPrompt = `
-  Contexto do Caso: ${currentStage.content}
-  Pergunta Feita: ${currentStage.question}
-  Resposta do Aluno: ${studentResponse}
-  `;
+  const prompt = `
+  CASO: ${currentCase.title}
+  ETAPA ATUAL: ${currentStage.title}
+  CONTEÚDO DA ETAPA: ${currentStage.content}
+  PERGUNTA FEITA: ${currentStage.question}
+  RESPOSTA DO ALUNO: ${studentResponse}
+  
+  Forneça o feedback em formato JSON.`;
 
   try {
-    const response = await openai.chat.completions.create({
-      model: "gpt-4o",
-      messages: [
-        { role: "system", content: systemPrompt },
-        { role: "user", content: userPrompt }
-      ],
-      response_format: { type: "json_object" }
+    const response = await ai.models.generateContent({
+      model: "gemini-3-flash-preview",
+      contents: prompt,
+      config: {
+        systemInstruction,
+        responseMimeType: "application/json",
+        responseSchema: {
+          type: Type.OBJECT,
+          properties: {
+            feedback: { type: Type.STRING, description: "Feedback detalhado em Markdown para o aluno." },
+            score: { type: Type.NUMBER, description: "Nota de 0 a 3." },
+            justification: { type: Type.STRING, description: "Justificativa curta para a nota." }
+          },
+          required: ["feedback", "score", "justification"]
+        }
+      }
     });
 
-    const content = response.choices[0].message.content;
-    if (!content) throw new Error("Resposta vazia da IA.");
+    const jsonText = response.text;
+    if (!jsonText) throw new Error("IA retornou resposta vazia.");
     
-    return JSON.parse(content) as AIFeedbackResponse;
+    return JSON.parse(jsonText) as AIFeedbackResponse;
   } catch (error: any) {
-    console.error("Erro no ChatGPT:", error);
-    throw new Error(error.message || "Erro ao processar feedback pela OpenAI.");
+    console.error("Erro no Processamento Gemini:", error);
+    throw new Error(error.message || "Erro ao consultar o Tutor Inteligente.");
   }
 }
