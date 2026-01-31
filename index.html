@@ -41,18 +41,24 @@
         }
     </style>
     <script>
-        // Previne erro de "process is not defined" e captura erros globais
-        window.process = { env: { API_KEY: "" } };
+        // Setup global process object for browser compatibility
+        window.process = { 
+            env: { 
+                API_KEY: "" // Valores serão injetados pelo ambiente
+            } 
+        };
+        
         window.onerror = function(msg, url, lineNo, columnNo, error) {
+            console.error("Global Error:", msg, error);
             const display = document.getElementById('error-display');
             if (display) {
                 display.style.display = 'block';
-                display.innerHTML = '<strong>Erro de Carregamento:</strong> ' + msg + '<br><small>' + url + ' L:' + lineNo + '</small>';
+                display.innerHTML = '<strong>Erro de Execução:</strong> ' + msg + '<br><small>' + url + ' L:' + lineNo + ':' + columnNo + '</small>';
             }
             return false;
         };
     </script>
-<script type="importmap">
+    <script type="importmap">
 {
   "imports": {
     "react": "https://esm.sh/react@19.0.0",
@@ -60,7 +66,7 @@
     "react-dom/client": "https://esm.sh/react-dom@19.0.0/client",
     "react/jsx-runtime": "https://esm.sh/react@19.0.0/jsx-runtime",
     "lucide-react": "https://esm.sh/lucide-react@0.460.0?external=react",
-    "@google/genai": "https://esm.sh/@google/genai@0.1.0",
+    "@google/genai": "https://esm.sh/@google/genai@0.10.0",
     "recharts": "https://esm.sh/recharts@2.12.7?external=react,react-dom",
     "@supabase/supabase-js": "https://esm.sh/@supabase/supabase-js@2.45.0",
     "react-dom/": "https://esm.sh/react-dom@^19.2.4/",
@@ -72,5 +78,7 @@
 <body class="bg-slate-50 text-slate-900">
     <div id="root"></div>
     <div id="error-display"></div>
+    <!-- Script de entrada explícito como módulo ES6 -->
+    <script type="module" src="index.tsx"></script>
 </body>
 </html>
