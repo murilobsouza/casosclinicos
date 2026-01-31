@@ -9,19 +9,16 @@ export interface AIFeedbackResponse {
 }
 
 /**
- * Função utilitária para obter a chave de API de forma segura no navegador.
+ * Função de acesso seguro às chaves, lidando com diferentes ambientes de injeção.
  */
 const getSafeApiKey = (): string => {
   try {
-    // @ts-ignore
-    if (typeof process !== 'undefined' && process.env) {
-      // @ts-ignore
-      return process.env.OPENAI_API_KEY || process.env.API_KEY || '';
-    }
+    // Tenta pegar do process.env injetado ou do window.process definido no html
+    const env = (window as any).process?.env || {};
+    return env.OPENAI_API_KEY || env.API_KEY || "";
   } catch (e) {
-    console.warn("Ambiente de variáveis 'process' não detectado.");
+    return "";
   }
-  return '';
 };
 
 const getClient = () => {
@@ -38,8 +35,8 @@ export async function validateApiKey(): Promise<{success: boolean, message: stri
   if (!apiKey || apiKey.trim() === "" || apiKey.length < 10) {
     return { 
       success: false, 
-      message: "Chave de API não detectada.",
-      technicalError: "Verifique se você configurou a variável API_KEY ou OPENAI_API_KEY nos 'Secrets'."
+      message: "Chave OpenAI não detectada.",
+      technicalError: "Configure 'API_KEY' ou 'OPENAI_API_KEY' nas variáveis de ambiente."
     };
   }
   
@@ -52,7 +49,7 @@ export async function validateApiKey(): Promise<{success: boolean, message: stri
     });
     return { success: true, message: "ChatGPT Online" };
   } catch (error: any) {
-    console.error("Erro de validação OpenAI:", error);
+    console.error("Erro OpenAI:", error);
     return { 
       success: false, 
       message: "Falha na conexão com a OpenAI.",
