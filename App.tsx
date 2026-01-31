@@ -1,14 +1,14 @@
 
 import React, { useState, useEffect } from 'react';
-import { User, UserRole, AuthState } from './types';
-import Login from './pages/Login';
-import Register from './pages/Register';
-import StudentDashboard from './pages/StudentDashboard';
-import AdminDashboard from './pages/AdminDashboard';
-import CaseTutor from './pages/CaseTutor';
-import CaseManagement from './pages/CaseManagement';
-import { DB } from './db';
-import { LogOut, BookOpen, Loader2 } from 'lucide-react';
+import { User, UserRole, AuthState } from './types.ts';
+import Login from './pages/Login.tsx';
+import Register from './pages/Register.tsx';
+import StudentDashboard from './pages/StudentDashboard.tsx';
+import AdminDashboard from './pages/AdminDashboard.tsx';
+import CaseTutor from './pages/CaseTutor.tsx';
+import CaseManagement from './pages/CaseManagement.tsx';
+import { DB } from './db.ts';
+import { LogOut, BookOpen, Loader2, Settings } from 'lucide-react';
 
 const App: React.FC = () => {
   const [auth, setAuth] = useState<AuthState>({ user: null, isAuthenticated: false });
@@ -17,7 +17,7 @@ const App: React.FC = () => {
   const [isInitializing, setIsInitializing] = useState(true);
 
   useEffect(() => {
-    const initAuth = () => {
+    const initApp = async () => {
       try {
         const savedUser = localStorage.getItem('tutoroftalmo_current_user');
         if (savedUser) {
@@ -28,13 +28,12 @@ const App: React.FC = () => {
           setView('login');
         }
       } catch (e) {
-        console.error("Erro ao carregar sessão:", e);
-        localStorage.removeItem('tutoroftalmo_current_user');
+        console.error("Erro ao inicializar app:", e);
       } finally {
         setIsInitializing(false);
       }
     };
-    initAuth();
+    initApp();
   }, []);
 
   const handleLogin = (user: User) => {
