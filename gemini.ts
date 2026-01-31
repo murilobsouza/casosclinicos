@@ -1,6 +1,6 @@
 
-import { GoogleGenAI, Type } from "@google/genai";
-import { CaseStage, ClinicalCase } from "./types";
+import OpenAI from "openai";
+import { ClinicalCase } from "./types";
 
 export interface AIFeedbackResponse {
   feedback: string;
@@ -8,47 +8,44 @@ export interface AIFeedbackResponse {
   justification: string;
 }
 
-/**
- * Verifica se a API Key está presente e funcional.
- */
-export async function validateApiKey(): Promise<{success: boolean, message: string, code?: string}> {
-  const apiKey = process.env.API_KEY;
-  if (!apiKey || apiKey.trim() === "" || apiKey.includes("your_api_key")) {
-    return { success: false, message: "A variável API_KEY não foi configurada ou contém um valor padrão.", code: "MISSING" };
+// Inicializa o cliente OpenAI
+// Nota: Em um ambiente real de produção, você não deve expor a chave no frontend.
+// Estamos usando dangerouslyAllowBrowser porque este é um protótipo educacional.
+const getClient = () => {
+  const apiKey = process.env.OPENAI_API_KEY || process.env.API_KEY;
+  return new OpenAI({
+    apiKey: apiKey,
+    dangerouslyAllowBrowser: true
+  });
+};
+
+export async function validateApiKey(): Promise<{success: boolean, message: string, technicalError?: string}> {
+  const apiKey = process.env.OPENAI_API_KEY || process.env.API_KEY;
+  
+  if (!apiKey || apiKey.trim() === "" || apiKey.length < 10) {
+    return { 
+      success: false, 
+      message: "Chave OpenAI não encontrada no ambiente.",
+      technicalError: "Variável OPENAI_API_KEY ou API_KEY não configurada."
+    };
   }
   
   try {
-    const ai = new GoogleGenAI({ apiKey });
-    const response = await ai.models.generateContent({
-      model: "gemini-3-flash-preview",
-      contents: [{ text: "ping" }],
-      config: { 
-        maxOutputTokens: 1,
-        thinkingConfig: { thinkingBudget: 0 }
-      }
+    const openai = getClient();
+    await openai.chat.completions.create({
+      model: "gpt-4o-mini",
+      messages: [{ role: "user", content: "p" }],
+      max_tokens: 1
     });
-    return { success: true, message: "Conexão com Gemini API estabelecida!" };
+    return { success: true, message: "ChatGPT Online" };
   } catch (error: any) {
-    console.group("Diagnóstico de API");
-    console.error("Status:", error.status);
-    console.error("Mensagem:", error.message);
-    console.groupEnd();
-
-    const msg = error.message || "";
-    // Erro 400 do Google geralmente indica chave mal formatada ou inválida
-    if (msg.includes("API key not valid") || msg.includes("INVALID_ARGUMENT") || msg.includes("400")) {
-      return { success: false, message: "A chave API_KEY configurada é inválida ou expirou.", code: "INVALID" };
-    }
-    return { success: false, message: `Erro na API: ${msg}`, code: "ERROR" };
+    console.error("Erro de validação OpenAI:", error);
+    return { 
+      success: false, 
+      message: "Falha na conexão com a OpenAI.",
+      technicalError: error.message || "Erro desconhecido na API."
+    };
   }
-}
-
-function cleanJsonString(str: string): string {
-  let cleaned = str.trim();
-  if (cleaned.startsWith('```')) {
-    cleaned = cleaned.replace(/^```(?:json)?\s+/, '').replace(/\s+```$/, '');
-  }
-  return cleaned;
 }
 
 export async function getClinicalFeedback(
@@ -56,43 +53,40 @@ export async function getClinicalFeedback(
   stageIndex: number,
   studentResponse: string
 ): Promise<AIFeedbackResponse> {
-  const apiKey = process.env.API_KEY;
-
-  if (!apiKey) {
-    throw new Error("Chave de API não detectada.");
-  }
-
-  const ai = new GoogleGenAI({ apiKey });
+  const openai = getClient();
   const currentStage = currentCase.stages[stageIndex];
   
-  const systemInstruction = `
-    Você é um Tutor especializado em Oftalmologia.
-    Avalie a resposta do aluno e retorne JSON: feedback, score (0-3), justification.
+  const systemPrompt = `Você é um experiente professor de oftalmologia. 
+  Avalie a resposta do aluno de medicina para o caso: ${currentCase.title}.
+  
+  Regras de Avaliação:
+  1. Forneça feedback construtivo em Markdown.
+  2. Atribua um score de 0 a 3 baseado na precisão técnica.
+  3. A resposta DEVE ser um objeto JSON com os campos: feedback, score, justification.
+  4. Seja rigoroso com a terminologia médica oftalmológica.`;
+
+  const userPrompt = `
+  Contexto do Caso: ${currentStage.content}
+  Pergunta Feita: ${currentStage.question}
+  Resposta do Aluno: ${studentResponse}
   `;
 
   try {
-    const response = await ai.models.generateContent({
-      model: "gemini-3-pro-preview",
-      contents: [
-        { text: `Pergunta: ${currentStage.question}\nResposta: ${studentResponse}` }
+    const response = await openai.chat.completions.create({
+      model: "gpt-4o",
+      messages: [
+        { role: "system", content: systemPrompt },
+        { role: "user", content: userPrompt }
       ],
-      config: {
-        systemInstruction,
-        responseMimeType: "application/json",
-        responseSchema: {
-          type: Type.OBJECT,
-          properties: {
-            feedback: { type: Type.STRING },
-            score: { type: Type.NUMBER },
-            justification: { type: Type.STRING }
-          },
-          required: ["feedback", "score", "justification"]
-        }
-      }
+      response_format: { type: "json_object" }
     });
 
-    return JSON.parse(cleanJsonString(response.text || "{}"));
+    const content = response.choices[0].message.content;
+    if (!content) throw new Error("Resposta vazia da IA.");
+    
+    return JSON.parse(content) as AIFeedbackResponse;
   } catch (error: any) {
-    throw new Error("Erro na IA. Por favor, verifique se sua chave de API é válida.");
+    console.error("Erro no ChatGPT:", error);
+    throw new Error(error.message || "Erro ao processar feedback pela OpenAI.");
   }
 }
