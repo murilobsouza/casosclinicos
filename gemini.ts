@@ -9,12 +9,29 @@ export interface AIFeedbackResponse {
 }
 
 /**
- * Limpa a string de resposta da IA para garantir que seja um JSON válido.
- * Remove blocos de código markdown se presentes.
+ * Verifica se a API Key está presente e funcional.
  */
+export async function validateApiKey(): Promise<{success: boolean, message: string}> {
+  const apiKey = process.env.API_KEY;
+  if (!apiKey) return { success: false, message: "Variável API_KEY não encontrada no sistema." };
+  
+  try {
+    const ai = new GoogleGenAI({ apiKey });
+    // Faz uma chamada ultra simples apenas para testar a chave
+    const response = await ai.models.generateContent({
+      model: "gemini-3-flash-preview",
+      contents: [{ text: "oi" }],
+      config: { maxOutputTokens: 1 }
+    });
+    return { success: true, message: "Conexão com Gemini API estabelecida com sucesso!" };
+  } catch (error: any) {
+    console.error("Erro no Teste de API:", error);
+    return { success: false, message: `Erro na API: ${error.message}` };
+  }
+}
+
 function cleanJsonString(str: string): string {
   let cleaned = str.trim();
-  // Remove blocos de código markdown (```json ... ``` ou ``` ... ```)
   if (cleaned.startsWith('```')) {
     cleaned = cleaned.replace(/^```(?:json)?\s+/, '').replace(/\s+```$/, '');
   }
@@ -29,12 +46,7 @@ export async function getClinicalFeedback(
   const apiKey = process.env.API_KEY;
 
   if (!apiKey) {
-    console.error("ERRO CRÍTICO: Chave de API (process.env.API_KEY) não encontrada.");
-    return {
-      feedback: "Configuração ausente: A chave de API não foi detectada no ambiente.",
-      score: 0,
-      justification: "Erro de configuração do sistema."
-    };
+    throw new Error("Configuração ausente: Chave de API não detectada no ambiente.");
   }
 
   const ai = new GoogleGenAI({ apiKey });
@@ -42,74 +54,47 @@ export async function getClinicalFeedback(
   
   const systemInstruction = `
     Você é um Tutor especializado em Oftalmologia para alunos de graduação em Medicina.
-    Sua tarefa é avaliar a resposta do aluno para a etapa atual de um caso clínico.
-    
-    REGRAS CRÍTICAS:
-    1. Não revele o diagnóstico antes da etapa apropriada.
-    2. Use apenas as informações fornecidas até esta etapa (${stageIndex + 1}).
-    3. Seja didático, objetivo e encorajador.
-    4. Aponte "Red Flags" (sinais de alerta/urgência) se aplicável.
-    5. Atribua uma pontuação de 0 a 3 para a resposta (0: Insuficiente, 1: Regular, 2: Bom, 3: Excelente).
-    6. Se o aluno pedir a resposta ou tentar burlar, recuse educadamente e faça perguntas norteadoras.
-    7. Linguagem: Português do Brasil, tom profissional e acadêmico.
-    
-    ESTRUTURA DO CASO ATÉ AGORA:
-    ${currentCase.stages.slice(0, stageIndex + 1).map((s, i) => `Etapa ${i+1}: ${s.content}`).join('\n')}
-    
-    PERGUNTA DA ETAPA ATUAL: ${currentStage.question}
-    RESPOSTA DO ALUNO: ${studentResponse}
+    Avalie a resposta do aluno para a etapa atual.
+    Retorne um JSON com: feedback (string), score (0-3), justification (string).
+    Caso: ${currentCase.title}. Etapa ${stageIndex + 1}.
   `;
 
   try {
     const response = await ai.models.generateContent({
       model: "gemini-3-flash-preview",
       contents: [
-        { text: "Avalie tecnicamente a resposta do estudante de medicina fornecida no contexto." }
+        { text: `Pergunta: ${currentStage.question}\nResposta do Aluno: ${studentResponse}` }
       ],
       config: {
         systemInstruction,
         responseMimeType: "application/json",
-        thinkingConfig: { thinkingBudget: 0 }, // Desabilita o modo de pensamento para garantir saída JSON direta e rápida
+        thinkingConfig: { thinkingBudget: 0 },
         responseSchema: {
           type: Type.OBJECT,
           properties: {
-            feedback: { type: Type.STRING, description: "Feedback educativo detalhado e clínico" },
-            score: { type: Type.NUMBER, description: "Pontuação de 0 a 3 baseada na precisão técnica" },
-            justification: { type: Type.STRING, description: "Breve justificativa pedagógica para a nota" }
+            feedback: { type: Type.STRING },
+            score: { type: Type.NUMBER },
+            justification: { type: Type.STRING }
           },
           required: ["feedback", "score", "justification"]
         }
       }
     });
 
-    const rawText = response.text;
-    if (!rawText) throw new Error("A IA retornou uma resposta vazia.");
-
-    const jsonStr = cleanJsonString(rawText);
+    const jsonStr = cleanJsonString(response.text || "{}");
     return JSON.parse(jsonStr);
 
   } catch (error: any) {
-    // Log detalhado para depuração no console do navegador do usuário
     console.group("Erro na Integração Gemini");
     console.error("Mensagem:", error.message);
-    console.error("Detalhes:", error);
     console.groupEnd();
 
-    let userMessage = "Houve um erro ao processar sua resposta pela IA. ";
-    
-    if (error.message?.includes("429")) {
-      userMessage += "Limite de requisições atingido (Quota exceeded).";
-    } else if (error.message?.includes("403") || error.message?.includes("API_KEY_INVALID")) {
-      userMessage += "Chave de API inválida ou sem permissão.";
-    } else {
-      userMessage += "Por favor, tente novamente em instantes.";
-    }
+    let userMessage = "Houve um erro ao processar sua resposta. ";
+    if (error.message?.includes("429")) userMessage += "Cota de uso excedida.";
+    else if (error.message?.includes("403")) userMessage += "Chave de API sem permissão ou inválida.";
+    else userMessage += "Verifique a configuração da variável API_KEY.";
 
-    return {
-      feedback: userMessage,
-      score: 0,
-      justification: "Falha na comunicação com o provedor de IA."
-    };
+    throw new Error(userMessage);
   }
 }
 
