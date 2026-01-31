@@ -8,33 +8,30 @@ export interface AIFeedbackResponse {
   justification: string;
 }
 
-// Inicializa a IA conforme as diretrizes (deve usar process.env.API_KEY diretamente)
-const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+// Lazy initialization function to ensure we always use the latest process.env.API_KEY
+const getAI = () => {
+  const apiKey = process.env.API_KEY;
+  if (!apiKey) {
+    throw new Error("A chave de API (API_KEY) não foi encontrada no ambiente.");
+  }
+  return new GoogleGenAI({ apiKey });
+};
 
 export async function validateApiKey(): Promise<{success: boolean, message: string, technicalError?: string}> {
-  const apiKey = process.env.API_KEY || "";
-  
-  if (!apiKey || apiKey.length < 10) {
-    return { 
-      success: false, 
-      message: "Chave Gemini não configurada.",
-      technicalError: "Certifique-se de que a variável API_KEY está definida nos segredos do projeto."
-    };
-  }
-  
   try {
-    // Testa a conexão com um prompt simples
+    const ai = getAI();
+    // Test the connection with a simple prompt
     await ai.models.generateContent({
       model: "gemini-3-flash-preview",
       contents: "ping",
     });
     return { success: true, message: "Gemini Online" };
   } catch (error: any) {
-    console.error("Erro Gemini Auth:", error);
+    console.error("Erro ao validar API Key do Gemini:", error);
     return { 
       success: false, 
-      message: "Falha na conexão com Google AI.",
-      technicalError: error.message
+      message: "Não foi possível conectar com o Gemini.",
+      technicalError: error.message || "Erro desconhecido ao validar a chave."
     };
   }
 }
@@ -45,6 +42,7 @@ export async function getClinicalFeedback(
   studentResponse: string
 ): Promise<AIFeedbackResponse> {
   const currentStage = currentCase.stages[stageIndex];
+  const ai = getAI();
   
   const systemInstruction = `Você é um professor sênior de Oftalmologia avaliando um aluno de graduação em Medicina.
   Analise a resposta técnica do aluno para o caso clínico fornecido.
@@ -62,7 +60,7 @@ export async function getClinicalFeedback(
   RESPOSTA DO ALUNO: ${studentResponse}
   
   Analise se o aluno identificou corretamente a patologia ou conduta baseada na descrição.
-  Forneça o feedback em formato JSON estruturado.`;
+  Forneça o feedback em formato JSON estruturado seguindo o schema fornecido.`;
 
   try {
     const response = await ai.models.generateContent({
