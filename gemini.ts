@@ -1,6 +1,9 @@
-
 import { GoogleGenAI, Type } from "@google/genai";
 import { ClinicalCase } from "./types.ts";
+
+// Declaração para satisfazer o compilador TypeScript sem definir o valor manualmente.
+// Isso resolve o erro de build "exited with 1" em ambientes de compilação rigorosos.
+declare const process: any;
 
 export interface AIFeedbackResponse {
   feedback: string;
@@ -8,7 +11,10 @@ export interface AIFeedbackResponse {
   justification: string;
 }
 
-// Lazy initialization function to ensure we always use the latest process.env.API_KEY
+/**
+ * Inicializa a instância do Gemini usando a chave de API do ambiente.
+ * Conforme as diretrizes: new GoogleGenAI({ apiKey: process.env.API_KEY })
+ */
 const getAI = () => {
   const apiKey = process.env.API_KEY;
   if (!apiKey) {
@@ -20,7 +26,7 @@ const getAI = () => {
 export async function validateApiKey(): Promise<{success: boolean, message: string, technicalError?: string}> {
   try {
     const ai = getAI();
-    // Test the connection with a simple prompt
+    // Teste simples de conectividade
     await ai.models.generateContent({
       model: "gemini-3-flash-preview",
       contents: "ping",
