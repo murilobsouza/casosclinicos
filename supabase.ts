@@ -1,34 +1,27 @@
-import { createClient } from "@supabase/supabase-js";
+
+import { createClient } from 'https://esm.sh/@supabase/supabase-js@^2.45.0';
 
 const getEnv = (key: string): string => {
-  // 1) Vite (frontend)
   try {
     // @ts-ignore
-    const v = (import.meta as any)?.env?.[key];
-    if (typeof v === "string" && v.length > 0) return v;
+    if (typeof process !== 'undefined' && process.env && process.env[key]) {
+      return process.env[key] as string;
+    }
   } catch (e) {}
-
-  // 2) Node (build/server) - fallback
-  try {
-    // @ts-ignore
-    const v = (globalThis as any)?.process?.env?.[key];
-    if (typeof v === "string" && v.length > 0) return v;
-  } catch (e) {}
-
-  return "";
+  return '';
 };
 
-const supabaseUrl = getEnv("VITE_SUPABASE_URL");
-const supabaseAnonKey = getEnv("VITE_SUPABASE_ANON_KEY");
+const supabaseUrl = getEnv('VITE_SUPABASE_URL');
+const supabaseAnonKey = getEnv('VITE_SUPABASE_ANON_KEY');
 
 // Verifica se as chaves são válidas (não vazias e não placeholders)
-export const isSupabaseConfigured =
-  !!supabaseUrl &&
-  !!supabaseAnonKey &&
-  !supabaseUrl.includes("placeholder-project");
+export const isSupabaseConfigured = 
+  !!supabaseUrl && 
+  !!supabaseAnonKey && 
+  !supabaseUrl.includes('placeholder-project');
 
-const validUrl = supabaseUrl || "https://placeholder-project.supabase.co";
-const validKey = supabaseAnonKey || "placeholder-key";
+const validUrl = supabaseUrl || 'https://placeholder-project.supabase.co';
+const validKey = supabaseAnonKey || 'placeholder-key';
 
 if (!isSupabaseConfigured) {
   console.warn("Supabase não configurado. O aplicativo operará em modo 'Local Storage'.");
