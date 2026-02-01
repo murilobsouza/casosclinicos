@@ -15,12 +15,12 @@ export interface AIFeedbackResponse {
  */
 export async function validateApiKey(): Promise<{success: boolean, message: string, technicalError?: string}> {
   try {
-    const key = process.env.API_KEY;
+    const key = process.env.GEMINI_API_KEY;
     if (!key) {
       return { 
         success: false, 
         message: "Chave de IA não configurada no ambiente.",
-        technicalError: "process.env.API_KEY está indefinido."
+        technicalError: "process.env.GEMINI_API_KEY está indefinido."
       };
     }
     
