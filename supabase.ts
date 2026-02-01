@@ -1,20 +1,18 @@
 import { createClient } from "@supabase/supabase-js";
 
 const getEnv = (key: string): string => {
-  // 1) Vite (browser/build) -> import.meta.env
+  // 1) Vite (frontend)
   try {
-    // import.meta existe em Vite; em outros ambientes pode não existir
     // @ts-ignore
-    const v = typeof import.meta !== "undefined" ? import.meta.env?.[key] : undefined;
+    const v = (import.meta as any)?.env?.[key];
     if (typeof v === "string" && v.length > 0) return v;
   } catch (e) {}
 
-  // 2) Fallback opcional: Node (caso algum build/runtime use process.env)
+  // 2) Node (build/server) - fallback
   try {
     // @ts-ignore
-    if (typeof process !== "undefined" && process.env && process.env[key]) {
-      return process.env[key] as string;
-    }
+    const v = (globalThis as any)?.process?.env?.[key];
+    if (typeof v === "string" && v.length > 0) return v;
   } catch (e) {}
 
   return "";
@@ -27,8 +25,7 @@ const supabaseAnonKey = getEnv("VITE_SUPABASE_ANON_KEY");
 export const isSupabaseConfigured =
   !!supabaseUrl &&
   !!supabaseAnonKey &&
-  !supabaseUrl.includes("placeholder-project") &&
-  !supabaseAnonKey.includes("placeholder");
+  !supabaseUrl.includes("placeholder-project");
 
 const validUrl = supabaseUrl || "https://placeholder-project.supabase.co";
 const validKey = supabaseAnonKey || "placeholder-key";
@@ -38,4 +35,3 @@ if (!isSupabaseConfigured) {
 }
 
 export const supabase = createClient(validUrl, validKey);
-
