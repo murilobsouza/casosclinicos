@@ -1,13 +1,25 @@
-import { createClient } from "@supabase/supabase-js";
+import { createClient, type SupabaseClient } from "@supabase/supabase-js";
 
-const supabaseUrl = import.meta.env.VITE_SUPABASE_URL as string | undefined;
-const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY as string | undefined;
+let _client: SupabaseClient | null = null;
 
-if (!supabaseUrl || !supabaseAnonKey) {
-  console.warn("Supabase não configurado corretamente nas variáveis de ambiente.");
-  throw new Error("Faltam VITE_SUPABASE_URL ou VITE_SUPABASE_ANON_KEY");
+export const supabaseUrl = (import.meta as any)?.env?.VITE_SUPABASE_URL as string | undefined;
+export const supabaseAnonKey = (import.meta as any)?.env?.VITE_SUPABASE_ANON_KEY as string | undefined;
+
+export const isSupabaseConfigured =
+  !!supabaseUrl &&
+  !!supabaseAnonKey &&
+  !supabaseUrl.includes("placeholder-project") &&
+  !supabaseAnonKey.includes("placeholder");
+
+export function getSupabase(): SupabaseClient | null {
+  if (!isSupabaseConfigured) {
+    // Não derruba deploy: apenas avisa quando alguém tentar usar.
+    console.warn("Supabase não configurado. Operando sem Supabase.");
+    return null;
+  }
+
+  if (!_client) {
+    _client = createClient(supabaseUrl!, supabaseAnonKey!);
+  }
+  return _client;
 }
-
-export const supabase = createClient(supabaseUrl, supabaseAnonKey);
-
-export const isSupabaseConfigured = true;
