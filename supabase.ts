@@ -11,8 +11,8 @@ const getEnv = (key: string): string => {
   return '';
 };
 
-const supabaseUrl = getEnv('SUPABASE_URL');
-const supabaseAnonKey = getEnv('SUPABASE_ANON_KEY');
+const supabaseUrl = getEnv('VITE_SUPABASE_URL');
+const supabaseAnonKey = getEnv('VITE_SUPABASE_ANON_KEY');
 
 // Verifica se as chaves são válidas (não vazias e não placeholders)
 export const isSupabaseConfigured = 
