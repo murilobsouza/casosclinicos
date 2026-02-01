@@ -1,30 +1,13 @@
+import { createClient } from "@supabase/supabase-js";
 
-import { createClient } from 'https://esm.sh/@supabase/supabase-js@^2.45.0';
+const supabaseUrl = import.meta.env.VITE_SUPABASE_URL as string | undefined;
+const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY as string | undefined;
 
-const getEnv = (key: string): string => {
-  try {
-    // @ts-ignore
-    if (typeof process !== 'undefined' && process.env && process.env[key]) {
-      return process.env[key] as string;
-    }
-  } catch (e) {}
-  return '';
-};
-
-const supabaseUrl = getEnv('VITE_SUPABASE_URL');
-const supabaseAnonKey = getEnv('VITE_SUPABASE_ANON_KEY');
-
-// Verifica se as chaves são válidas (não vazias e não placeholders)
-export const isSupabaseConfigured = 
-  !!supabaseUrl && 
-  !!supabaseAnonKey && 
-  !supabaseUrl.includes('placeholder-project');
-
-const validUrl = supabaseUrl || 'https://placeholder-project.supabase.co';
-const validKey = supabaseAnonKey || 'placeholder-key';
-
-if (!isSupabaseConfigured) {
-  console.warn("Supabase não configurado. O aplicativo operará em modo 'Local Storage'.");
+if (!supabaseUrl || !supabaseAnonKey) {
+  console.warn("Supabase não configurado corretamente nas variáveis de ambiente.");
+  throw new Error("Faltam VITE_SUPABASE_URL ou VITE_SUPABASE_ANON_KEY");
 }
 
-export const supabase = createClient(validUrl, validKey);
+export const supabase = createClient(supabaseUrl, supabaseAnonKey);
+
+export const isSupabaseConfigured = true;
