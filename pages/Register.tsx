@@ -26,7 +26,7 @@ const Register: React.FC<RegisterProps> = ({ onLogin, onSwitchToLogin }) => {
     setLoading(true);
     setError('');
     
-    // Códigos de inscrição configurados
+    // Códigos de inscrição solicitados
     const studentCode = '2026';
     const adminCode = '2317';
 
@@ -37,7 +37,7 @@ const Register: React.FC<RegisterProps> = ({ onLogin, onSwitchToLogin }) => {
     }
 
     if (formData.role === UserRole.ADMIN && formData.registrationCode !== adminCode) {
-      setError('Código de inscrição inválido para Professor.');
+      setError('Código de inscrição inválido para Professor (Dica: 2317).');
       setLoading(false);
       return;
     }
