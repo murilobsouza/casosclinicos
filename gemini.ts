@@ -1,71 +1,120 @@
-
 import { GoogleGenAI, Type } from "@google/genai";
-import { CaseStage, ClinicalCase } from "./types";
+import { ClinicalCase } from "./types.ts";
 
+/**
+ * Interface para a resposta do tutor
+ */
 export interface AIFeedbackResponse {
   feedback: string;
   score: number;
   justification: string;
 }
 
+/**
+ * Valida a disponibilidade do serviço de IA de forma segura
+ */
+export async function validateApiKey(): Promise<{success: boolean, message: string, technicalError?: string}> {
+  try {
+    const key = process.env.API_KEY;
+    if (!key) {
+      return { 
+        success: false, 
+        message: "Chave de IA não configurada no ambiente.",
+        technicalError: "process.env.API_KEY está indefinido."
+      };
+    }
+    
+    const ai = new GoogleGenAI({ apiKey: key });
+    // Uma chamada simples para testar a conectividade
+    await ai.models.generateContent({
+      model: "gemini-3-flash-preview",
+      contents: "Olá",
+    });
+    return { success: true, message: "Gemini Online" };
+  } catch (error: any) {
+    console.error("Erro na validação da IA:", error);
+    return { 
+      success: false, 
+      message: "Falha na conexão com Google AI.",
+      technicalError: error.message
+    };
+  }
+}
+
+/**
+ * Gera feedback pedagógico para a resposta do aluno
+ */
 export async function getClinicalFeedback(
   currentCase: ClinicalCase,
   stageIndex: number,
   studentResponse: string
 ): Promise<AIFeedbackResponse> {
-  // Use a new instance right before making an API call to ensure it always uses the most up-to-date API key.
-  // The API key must be obtained exclusively from the environment variable process.env.API_KEY.
-  const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
-
   const currentStage = currentCase.stages[stageIndex];
+  const key = process.env.API_KEY;
   
-  const systemInstruction = `
-    Você é um Tutor especializado em Oftalmologia para alunos de graduação em Medicina.
-    Sua tarefa é avaliar a resposta do aluno para a etapa atual de um caso clínico.
-    
-    REGRAS CRÍTICAS:
-    1. Não revele o diagnóstico antes da etapa apropriada.
-    2. Use apenas as informações fornecidas até esta etapa (${stageIndex + 1}).
-    3. Seja didático, objetivo e encorajador.
-    4. Aponte "Red Flags" (sinais de alerta/urgência) se aplicável.
-    5. Atribua uma pontuação de 0 a 3 para a resposta.
-    6. Se o aluno pedir a resposta, recuse educadamente e faça perguntas norteadoras.
-    7. Linguagem em Português do Brasil.
-    
-    ESTRUTURA DO CASO ATÉ AGORA:
-    ${currentCase.stages.slice(0, stageIndex + 1).map((s, i) => `Etapa ${i+1}: ${s.content}`).join('\n')}
-    
-    PERGUNTA DA ETAPA ATUAL: ${currentStage.question}
-    RESPOSTA DO ALUNO: ${studentResponse}
-  `;
+  if (!key) throw new Error("Chave de API não encontrada (process.env.API_KEY).");
+  
+  const ai = new GoogleGenAI({ apiKey: key });
+
+  const systemInstruction = `Você é um professor sênior de Oftalmologia avaliando um aluno de graduação em Medicina.
+  Sua tarefa é analisar a resposta técnica do aluno para o caso clínico fornecido.
+  
+  CRITÉRIOS DE AVALIAÇÃO:
+  - Pontuação (score): 0 (Incorreto), 1 (Incompleto), 2 (Bom), 3 (Excelente/Completo).
+  - Linguagem: Técnica, objetiva, mas encorajadora. Use Markdown para formatar o feedback.
+  - Rigor: Avalie se o aluno usou a terminologia oftalmológica correta e propôs a conduta baseada em evidências.`;
+
+  const prompt = `
+  CASO CLÍNICO: ${currentCase.title}
+  TEMA: ${currentCase.theme}
+  
+  ETAPA ATUAL: ${currentStage.title}
+  CONTEÚDO APRESENTADO: ${currentStage.content}
+  PERGUNTA FEITA AO ALUNO: ${currentStage.question}
+  
+  RESPOSTA DO ALUNO: ${studentResponse}
+  
+  Analise a resposta e forneça um feedback construtivo, uma nota de 0 a 3 e uma justificativa breve.`;
 
   try {
     const response = await ai.models.generateContent({
       model: "gemini-3-flash-preview",
-      contents: "Avalie a resposta do aluno.",
+      contents: prompt,
       config: {
         systemInstruction,
         responseMimeType: "application/json",
         responseSchema: {
           type: Type.OBJECT,
           properties: {
-            feedback: { type: Type.STRING, description: "Feedback educativo detalhado" },
-            score: { type: Type.NUMBER, description: "Pontuação de 0 a 3" },
-            justification: { type: Type.STRING, description: "Breve justificativa da nota" }
+            feedback: { 
+              type: Type.STRING, 
+              description: "O feedback detalhado para o aluno em formato Markdown." 
+            },
+            score: { 
+              type: Type.NUMBER, 
+              description: "Nota numérica de 0 a 3 baseada na qualidade da resposta." 
+            },
+            justification: { 
+              type: Type.STRING, 
+              description: "Uma justificativa técnica curta para a nota dada." 
+            }
           },
           required: ["feedback", "score", "justification"]
         }
       }
     });
 
-    const jsonStr = response.text?.trim() || "{}";
-    return JSON.parse(jsonStr);
-  } catch (error) {
-    console.error("AI Error:", error);
-    return {
-      feedback: "Houve um erro ao processar sua resposta pela IA. Por favor, tente novamente.",
-      score: 0,
-      justification: "Erro técnico na integração com a IA."
-    };
+    const text = response.text;
+    if (!text) throw new Error("A IA retornou uma resposta vazia.");
+    
+    // O texto retornado deve ser um JSON válido conforme o schema acima
+    return JSON.parse(text.trim()) as AIFeedbackResponse;
+  } catch (error: any) {
+    console.error("Erro no Processamento Gemini:", error);
+    if (error.message?.includes("API_KEY")) {
+      throw new Error("Erro de autenticação: Verifique se sua API Key é válida.");
+    }
+    throw new Error(error.message || "Erro desconhecido ao consultar o Tutor Inteligente.");
   }
 }
+
