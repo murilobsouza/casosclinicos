@@ -15,8 +15,8 @@ const getEnv = (key: string): string => {
 };
 
 // Usamos os nomes padrão SUPABASE_URL e SUPABASE_ANON_KEY
-const supabaseUrl = getEnv('NEXT_PUBLIC_SUPABASE_URL');
-const supabaseAnonKey = getEnv('NEXT_PUBLIC_SUPABASE_ANON_KEY');
+const supabaseUrl = getEnv('VITE_SUPABASE_URL');
+const supabaseAnonKey = getEnv('VITE_SUPABASE_ANON_KEY');
 
 // Verifica se as chaves são válidas
 export const isSupabaseConfigured = 
