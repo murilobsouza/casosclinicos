@@ -1,30 +1,36 @@
 
-import { createClient } from 'https://esm.sh/@supabase/supabase-js@^2.45.0';
+import { createClient } from '@supabase/supabase-js';
 
 const getEnv = (key: string): string => {
   try {
-    // @ts-ignore
-    if (typeof process !== 'undefined' && process.env && process.env[key]) {
-      return process.env[key] as string;
-    }
-  } catch (e) {}
-  return '';
+    // Tenta process.env padrão e também o injetado via window
+    const env = (typeof process !== 'undefined' && process.env) 
+      ? process.env 
+      : (window as any).process?.env || {};
+      
+    return env[key] || "";
+  } catch (e) {
+    return "";
+  }
 };
 
+// Usamos os nomes padrão SUPABASE_URL e SUPABASE_ANON_KEY
 const supabaseUrl = getEnv('NEXT_PUBLIC_SUPABASE_URL');
 const supabaseAnonKey = getEnv('NEXT_PUBLIC_SUPABASE_ANON_KEY');
 
-// Verifica se as chaves são válidas (não vazias e não placeholders)
+// Verifica se as chaves são válidas
 export const isSupabaseConfigured = 
   !!supabaseUrl && 
   !!supabaseAnonKey && 
   !supabaseUrl.includes('placeholder-project');
 
-const validUrl = supabaseUrl || 'https://placeholder-project.supabase.co';
-const validKey = supabaseAnonKey || 'placeholder-key';
+const validUrl = isSupabaseConfigured ? supabaseUrl : 'https://placeholder-project.supabase.co';
+const validKey = isSupabaseConfigured ? supabaseAnonKey : 'placeholder-key';
 
 if (!isSupabaseConfigured) {
-  console.warn("Supabase não configurado. O aplicativo operará em modo 'Local Storage'.");
+  console.warn("⚠️ Supabase não detectado. Os dados serão salvos localmente no navegador (Modo Offline).");
+} else {
+  console.log("🚀 Supabase conectado com sucesso.");
 }
 
 export const supabase = createClient(validUrl, validKey);
