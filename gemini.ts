@@ -14,8 +14,8 @@ export async function getClinicalFeedback(
   studentResponse: string
 ): Promise<AIFeedbackResponse> {
   // Use a new instance right before making an API call to ensure it always uses the most up-to-date API key.
-  // The API key must be obtained exclusively from the environment variable process.env.API_KEY.
-  const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+  // The API key must be obtained exclusively from the environment variable process.env.GEMINI_API_KEY.
+  const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
 
   const currentStage = currentCase.stages[stageIndex];
   
